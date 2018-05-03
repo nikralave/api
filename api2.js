@@ -1,17 +1,5 @@
 let request = new XMLHttpRequest();
 
-// function displayNicely(apiData) {
-//     let newData = JSON.parse(apiData);
-//     let count = 0;
-//     for (let i in newData) {
-//         count++;
-//         document.getElementById("data").innerHTML += i + ": "+ newData[i] + "</br>"
-//         console.log(newData[i]);
-//         if(count == 7) {
-//             break;
-//         }
-//     }
-// }
 
 function displayNicely(apiData) {
     let newData = JSON.parse(apiData);
@@ -30,18 +18,24 @@ function displayNicely(apiData) {
 }
 
 
-request.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200) {
-        // document.getElementById("data").innerHTML = JSON.parse(this.responseText);
-        displayNicely(this.responseText);
+request.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+         displayNicely(this.responseText);
+    }
+    if (this.readyState == 4 && this.status == 404) {
+        document.getElementById("data").innerHTML = "<strong>City not found. Please try again!</strong>"; 
     }
 }
 
-var city = prompt("Please enter a city:");
+
+
+function submitCity() {
+    
+city = document.getElementById("cityForm")["city"].value;
 
 let  appKey = "6ebea87dfc131fd5402906ce4b098ab8";
 
-request.open("GET", "https://api.openweathermap.org/data/2.5/weather?q="+ city + "in&APPID=" + appKey)
+request.open("GET", "https://api.openweathermap.org/data/2.5/weather?q="+ city + "&APPID=" + appKey)
 
 request.send();
-
+}
